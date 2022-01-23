@@ -38,7 +38,13 @@ func main() {
 }
 
 func ReadFullFile() error {
-	var r io.Reader = &SimpleReader{}
+	var r io.ReadCloser = &SimpleReader{}
+	defer func() {
+		_ = r.Close()
+	}()
+	defer func() {
+		println("before foo-loop")
+	}()
 	for {
 		value, err := r.Read([]byte("text does nothing"))
 		if err == io.EOF {
@@ -49,6 +55,9 @@ func ReadFullFile() error {
 		}
 		println(value)
 	}
+	defer func() {
+		println("after foo-loop")
+	}()
 	return nil
 }
 
@@ -69,8 +78,14 @@ type SimpleReader struct {
 	count int
 }
 
+func (sr *SimpleReader) Close() error {
+	println("closing reader")
+	return nil
+}
+
 func (sr *SimpleReader) Read(p []byte) (n int, err error) {
 	if sr.count > 3 {
+		// return 0, errors.New("random error") //  io.EOF
 		return 0, io.EOF
 	}
 	sr.count++
