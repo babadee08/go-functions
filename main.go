@@ -37,21 +37,28 @@ func main() {
 
 }
 
-func ReadFullFile() error {
+func ReadFullFile() (err error) {
 	var r io.ReadCloser = &SimpleReader{}
 	defer func() {
 		_ = r.Close()
+		if p := recover(); p == errCatastrophicReader {
+			println(p)
+			err = errors.New("a panic occurs but it's ok")
+		} else if p != nil {
+			panic("an unexpected error occurred and we do not want to recover")
+		}
 	}()
 	defer func() {
 		println("before foo-loop")
 	}()
 	for {
-		value, err := r.Read([]byte("text does nothing"))
-		if err == io.EOF {
+		value, readerErr := r.Read([]byte("text does nothing"))
+		if readerErr == io.EOF {
 			println("finished reading file, breaking out of loop")
 			break
-		} else if err != nil {
-			return err
+		} else if readerErr != nil {
+			err = readerErr
+			return
 		}
 		println(value)
 	}
@@ -83,7 +90,13 @@ func (sr *SimpleReader) Close() error {
 	return nil
 }
 
+var errCatastrophicReader = errors.New("something catastrophic happened in the reader")
+
 func (sr *SimpleReader) Read(p []byte) (n int, err error) {
+	if sr.count == 2 {
+		// panic(errCatastrophicReader)
+		panic(errors.New("another error"))
+	}
 	if sr.count > 3 {
 		// return 0, errors.New("random error") //  io.EOF
 		return 0, io.EOF
@@ -149,9 +162,10 @@ func mathExpression(expr MathExpr) func(float64, float64) float64 {
 	case MultiplyExpr:
 		return simplemath.Multiply
 	default:
-		return func(f float64, f2 float64) float64 {
+		panic("an invalid math expression was used")
+		/*return func(f float64, f2 float64) float64 {
 			return 0
-		}
+		}*/
 	}
 }
 
