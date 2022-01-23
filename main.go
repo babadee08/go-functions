@@ -31,7 +31,25 @@ func main() {
 	// moduleFourFinal()
 
 	ReadSomething()
+	if err := ReadFullFile(); err != nil {
+		fmt.Printf("something crappy occurred: %s\n", err)
+	}
 
+}
+
+func ReadFullFile() error {
+	var r io.Reader = &SimpleReader{}
+	for {
+		value, err := r.Read([]byte("text does nothing"))
+		if err == io.EOF {
+			println("finished reading file, breaking out of loop")
+			break
+		} else if err != nil {
+			return err
+		}
+		println(value)
+	}
+	return nil
 }
 
 func ReadSomething() error {
@@ -45,6 +63,18 @@ func ReadSomething() error {
 
 	println(value)
 	return nil
+}
+
+type SimpleReader struct {
+	count int
+}
+
+func (sr *SimpleReader) Read(p []byte) (n int, err error) {
+	if sr.count > 3 {
+		return 0, io.EOF
+	}
+	sr.count++
+	return sr.count, nil
 }
 
 type BadReader struct {
