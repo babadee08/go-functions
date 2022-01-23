@@ -21,6 +21,19 @@ func main() {
 	answer, _ = divide(6, 0)
 	fmt.Printf("%f\n", answer)
 
+	//total := sum(12.2, 14, 16, 22.4)
+	numbers := []float64{12.2, 14, 16, 22.4}
+	total := sum(numbers...)
+	fmt.Printf("total of sum: %f\n", total)
+
+}
+
+func sum(values ...float64) float64 {
+	total := 0.0
+	for _, value := range values {
+		total += value
+	}
+	return total
 }
 
 func divide(p1, p2 float64) (float64, error) {
