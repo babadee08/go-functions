@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"github.com/babadee08/go-functions/semantics"
 	"github.com/babadee08/go-functions/simplemath"
+	"net/http"
+	"strings"
 )
 
 func main() {
@@ -17,6 +19,19 @@ func main() {
 	sv.IncrementMinor()
 	sv.IncrementPatch()
 	println(sv.String())
+
+	var tripper http.RoundTripper = &RoundTripCounter{}
+	r, _ := http.NewRequest(http.MethodGet, "https://plutalsight.com", strings.NewReader("test call"))
+	_, _ = tripper.RoundTrip(r)
+}
+
+type RoundTripCounter struct {
+	count int
+}
+
+func (rt *RoundTripCounter) RoundTrip(request *http.Request) (*http.Response, error) {
+	rt.count++
+	return nil, nil
 }
 
 func moduleOne() {
