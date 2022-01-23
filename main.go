@@ -25,6 +25,11 @@ func main() {
 	// moduleThree()
 
 	// moduleFourA()
+	// moduleFourFinal()
+
+}
+
+func moduleFourFinal() {
 	addExpr := mathExpression(AddExpr)
 	println(addExpr(2, 3))
 
@@ -51,7 +56,6 @@ func main() {
 	for _, f := range funcs {
 		println(f())
 	}
-
 }
 
 func powerOfTwo() func() int64 {
