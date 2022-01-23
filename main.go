@@ -2,10 +2,19 @@ package main
 
 import (
 	"fmt"
+	"github.com/babadee08/go-functions/semantics"
 	"github.com/babadee08/go-functions/simplemath"
 )
 
 func main() {
+	// uncomment to fun all the code for the first module
+	// moduleOne()
+
+	sv := semantics.NewSemanticVersion(1, 2, 3)
+	println(sv.String())
+}
+
+func moduleOne() {
 	fmt.Printf("%f\n", simplemath.Add(2, 6))
 	fmt.Printf("%f\n", simplemath.Subtract(2, 6))
 	fmt.Printf("%f\n", simplemath.Multiply(2, 6))
@@ -24,5 +33,4 @@ func main() {
 	numbers := []float64{12.2, 14, 16, 22.4}
 	total := simplemath.Sum(numbers...)
 	fmt.Printf("total of sum: %f\n", total)
-
 }
