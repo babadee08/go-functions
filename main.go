@@ -1,9 +1,11 @@
 package main
 
 import (
+	"errors"
 	"fmt"
 	"github.com/babadee08/go-functions/semantics"
 	"github.com/babadee08/go-functions/simplemath"
+	"io"
 	"math"
 	"net/http"
 	"strings"
@@ -24,9 +26,33 @@ func main() {
 	// uncomment to for all the code for the Third module
 	// moduleThree()
 
+	// uncomment to for all the code for the Fourth module
 	// moduleFourA()
 	// moduleFourFinal()
 
+	ReadSomething()
+
+}
+
+func ReadSomething() error {
+	var r io.Reader = &BadReader{errors.New("my nonsense reader")}
+
+	value, err := r.Read([]byte("test something"))
+	if err != nil {
+		fmt.Printf("an error occured: %s\n", err)
+		return err
+	}
+
+	println(value)
+	return nil
+}
+
+type BadReader struct {
+	err error
+}
+
+func (br *BadReader) Read(p []byte) (n int, err error) {
+	return -1, br.err
 }
 
 func moduleFourFinal() {
