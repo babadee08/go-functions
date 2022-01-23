@@ -14,6 +14,31 @@ func main() {
 
 	// uncomment to for all the code for the Third module
 	// moduleThree()
+
+	// moduleFourA()
+
+}
+
+func moduleFourA() {
+	func() {
+		println("my first anonymous function")
+	}()
+
+	a := func() {
+		println("my first anonymous function")
+	}
+	a()
+
+	b := func(name string) {
+		fmt.Printf("my first %s function\n", name)
+	}
+	b("sample crap")
+
+	c := func(name string) string {
+		return fmt.Sprintf("my first %s function", name)
+	}
+	value := c("sample crap")
+	println(value)
 }
 
 func moduleThree() {
