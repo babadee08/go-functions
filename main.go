@@ -9,9 +9,14 @@ import (
 )
 
 func main() {
-	// uncomment to fun all the code for the first module
-	// moduleOne()
+	// uncomment to for all the code for the Second module
+	// moduleTwo()
 
+	// uncomment to for all the code for the Third module
+	// moduleThree()
+}
+
+func moduleThree() {
 	sv := semantics.NewSemanticVersion(1, 2, 3)
 	sv.IncrementMajor()
 	sv.IncrementMajor()
@@ -34,7 +39,7 @@ func (rt *RoundTripCounter) RoundTrip(request *http.Request) (*http.Response, er
 	return nil, nil
 }
 
-func moduleOne() {
+func moduleTwo() {
 	fmt.Printf("%f\n", simplemath.Add(2, 6))
 	fmt.Printf("%f\n", simplemath.Subtract(2, 6))
 	fmt.Printf("%f\n", simplemath.Multiply(2, 6))
